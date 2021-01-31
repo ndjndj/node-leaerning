@@ -13,19 +13,10 @@
     </header>
     <div role="main">
         <p><%=content %></p>
-        <table class="table">
-            <% for(var key in data) { %>
-                <tr>
-                    <th><%= key %></th>
-                    <td><%= data[key] %></td>
-                </tr>
-            <% } %>
-        </table>
-        <form method="post" action="/other">
-            <input type="text" name="msg" class="form-control">
-            <input type="submit" value="Click" class="btn btn-primary">
-        </form>
-        <p><a href="/other">Other Page に移動</a></p>
+        <% var id = 0; %>
+        <% for(var key in data) { %>
+        <%- include('data-item', {id: ++id, key: key, val: [data[key]]}) %>
+        <% } %>
     </div>
 </body>
 
