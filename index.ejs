@@ -14,10 +14,10 @@
     <div role="main">
         <p><%=content %></p>
         <table class="table">
-            <% for var key in data { %>
+            <% for(var key in data) { %>
                 <tr>
                     <th><%= key %></th>
-                    <tr><%= data[key] %></tr>
+                    <td><%= data[key] %></td>
                 </tr>
             <% } %>
         </table>
