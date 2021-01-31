@@ -18,7 +18,7 @@ function getFromClient(request, response) {
 
     switch (urlParts.pathname) {
         case '/':
-            const content = ejs.render(
+            var content = ejs.render(
                 indexPage
               , {
                     title: 'Indexページ'
@@ -30,7 +30,7 @@ function getFromClient(request, response) {
             response.end();
             break;
         case '/other':
-            const content = ejs.render(
+            var content = ejs.render(
                 otherPage
               , {
                     title: 'Otherページ'
