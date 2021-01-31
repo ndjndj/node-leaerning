@@ -20,11 +20,9 @@ function getFromClient(request, response) {
         case '/':
             var content = 'これは、Indexページです。';
             var query = urlParts.query;
-            console.log(query);
             if (query.msg != undefined) {
                 content += `あなたは「${query.msg}」と送りました。`
             }
-            console.log(content);
 
             var content = ejs.render(
                 indexPage
