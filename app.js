@@ -14,15 +14,23 @@ console.log('Server start');
 
 //createServer
 function getFromClient(request, response) {
-    const urlParts = url.parse(request.url);
+    const urlParts = url.parse(request.url, true);
 
     switch (urlParts.pathname) {
         case '/':
+            var content = 'これは、Indexページです。';
+            var query = urlParts.query;
+            console.log(query);
+            if (query.msg != undefined) {
+                content += `あなたは「${query.msg}」と送りました。`
+            }
+            console.log(content);
+
             var content = ejs.render(
                 indexPage
               , {
                     title: 'Indexページ'
-                  , content: 'これはテンプレートを使ったサンプルページです。'
+                  , content: content
               }
             );
             response.writeHead(200, {'Content-Type': 'text/html'});
