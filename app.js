@@ -4,6 +4,7 @@ const ejs = require('ejs');
 const url = require('url');
 
 const indexPage = fs.readFileSync('./index.ejs', 'utf8');
+const otherPage = fs.readFileSync('./other.ejs', 'utf8');
 const styleCSS = fs.readFileSync('./style.css', 'utf8');
 // main
 const server = http.createServer(getFromClient);
@@ -22,6 +23,18 @@ function getFromClient(request, response) {
               , {
                     title: 'Indexページ'
                   , content: 'これはテンプレートを使ったサンプルページです。'
+              }
+            );
+            response.writeHead(200, {'Content-Type': 'text/html'});
+            response.write(content);
+            response.end();
+            break;
+        case '/other':
+            const content = ejs.render(
+                otherPage
+              , {
+                    title: 'Otherページ'
+                  , content: 'これは新しく用意したページです'
               }
             );
             response.writeHead(200, {'Content-Type': 'text/html'});
