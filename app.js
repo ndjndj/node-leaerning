@@ -2,6 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const ejs = require('ejs');
 const url = require('url');
+const qs = require('querystring');
 
 const indexPage = fs.readFileSync('./index.ejs', 'utf8');
 const otherPage = fs.readFileSync('./other.ejs', 'utf8');
@@ -58,3 +59,19 @@ function getFromClient(request, response) {
             break;
     }
 }
+
+function responseIndex(request, response) {
+    const msg = 'これは、Indexページです。';
+    const content = ejs.render(
+        indexPage
+      , {
+            title: 'Index'
+          , content: msg
+      }
+    );
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(content);
+    response.end();
+}
+
+
