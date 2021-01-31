@@ -36,13 +36,22 @@ function getFromClient(request, response) {
     }
 }
 
+var data = {
+    'Taro': '09-999-999'
+  , 'Hanako': '080-888-888'
+  , 'Sachiko': '070-777-777'
+  , 'Ichiro': '060-666-666'
+}
+
 function responseIndex(request, response) {
+
     const msg = 'これは、Indexページです。';
     const content = ejs.render(
         indexPage
       , {
             title: 'Index'
           , content: msg
+          , data: data
       }
     );
     response.writeHead(200, {'Content-Type': 'text/html'});
