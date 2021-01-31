@@ -74,4 +74,36 @@ function responseIndex(request, response) {
     response.end();
 }
 
+function responseOther(request, response) {
+    var msg = 'これは、Otherページです。';
 
+    //POST アクセス時の処理
+    if (request.method == 'POST') {
+        let body = '';
+
+        // データ受信時のイベント処理
+        request.on(
+              'data'
+            , (data) => {body += data;}
+        )
+    }
+
+    //データ受信終了のイベント処理
+    request.on(
+          'end'
+        , () => {
+            let postData = qs.parse(body);
+            msg += `あなたは、「${postData.msg}」と書きました。`;
+            const content = ejs.render(
+                  otherPage
+                , {
+                      title: 'Other'
+                    , content: msg
+                }
+            );
+            response.writeHead(200, {'Content-Type': 'text/html'});
+            response.write(content);
+            response.end();
+        }
+    );
+}
