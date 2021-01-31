@@ -11,7 +11,13 @@ console.log('Server start');
 
 //createServer
 function getFromClient(request, response) {
-    const content = ejs.render(indexPage);
+    const content = ejs.render(
+          indexPage
+        , {
+              title: 'Indexページ'
+            , content: 'これはテンプレートを使ったサンプルページです。'
+        }
+    );
     response.writeHead(200, {'Content-Type': 'text.html'});
     response.write(content);
     response.end();
