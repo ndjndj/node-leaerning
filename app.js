@@ -24,17 +24,17 @@ function getFromClient(request, response) {
                   , content: 'これはテンプレートを使ったサンプルページです。'
               }
             );
-            response.writeHead(200, {'Content-Type': 'text.html'});
+            response.writeHead(200, {'Content-Type': 'text/html'});
             response.write(content);
             response.end();
             break;
         case '/style.css':
-            response.writeHead(200, {'Content-Type': 'text.html'});
+            response.writeHead(200, {'Content-Type': 'text/css'});
             response.write(styleCSS);
             response.end();
             break;
         default:
-            response.writeHead(200, {'Content-Type': 'text.html'});
+            response.writeHead(200, {'Content-Type': 'text/plain'});
             response.end('no page...');
             break;
     }
