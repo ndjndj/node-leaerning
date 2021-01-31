@@ -19,34 +19,10 @@ function getFromClient(request, response) {
 
     switch (urlParts.pathname) {
         case '/':
-            var content = 'これは、Indexページです。';
-            var query = urlParts.query;
-            if (query.msg != undefined) {
-                content += `あなたは「${query.msg}」と送りました。`
-            }
-
-            var content = ejs.render(
-                indexPage
-              , {
-                    title: 'Indexページ'
-                  , content: content
-              }
-            );
-            response.writeHead(200, {'Content-Type': 'text/html'});
-            response.write(content);
-            response.end();
+            responseIndex(request, response);
             break;
         case '/other':
-            var content = ejs.render(
-                otherPage
-              , {
-                    title: 'Otherページ'
-                  , content: 'これは新しく用意したページです'
-              }
-            );
-            response.writeHead(200, {'Content-Type': 'text/html'});
-            response.write(content);
-            response.end();
+            responseOther(request, response);
             break;
         case '/style.css':
             response.writeHead(200, {'Content-Type': 'text/css'});
@@ -79,31 +55,42 @@ function responseOther(request, response) {
 
     //POST アクセス時の処理
     if (request.method == 'POST') {
-        let body = '';
+        var body = '';
 
         // データ受信時のイベント処理
         request.on(
               'data'
             , (data) => {body += data;}
         )
+        //データ受信終了のイベント処理
+        request.on(
+            'end'
+            , () => {
+                let postData = qs.parse(body);
+                msg += `あなたは、「${postData.msg}」と書きました。`;
+                const content = ejs.render(
+                    otherPage
+                    , {
+                        title: 'Other'
+                        , content: msg
+                    }
+                );
+                response.writeHead(200, {'Content-Type': 'text/html'});
+                response.write(content);
+                response.end();
+            }
+        );
+    } else {
+        var msg = 'ページがありません。';
+        const content = ejs.render(
+              otherPage
+            , {
+                  title: 'Other'
+                , content: msg
+            }
+        );
+        response.writeHead(200, {'Content-Type': 'text/html'});
+        response.write(content);
+        response.end();
     }
-
-    //データ受信終了のイベント処理
-    request.on(
-          'end'
-        , () => {
-            let postData = qs.parse(body);
-            msg += `あなたは、「${postData.msg}」と書きました。`;
-            const content = ejs.render(
-                  otherPage
-                , {
-                      title: 'Other'
-                    , content: msg
-                }
-            );
-            response.writeHead(200, {'Content-Type': 'text/html'});
-            response.write(content);
-            response.end();
-        }
-    );
 }
