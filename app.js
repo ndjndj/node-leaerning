@@ -52,7 +52,7 @@ function responseIndex(request, response) {
         );
 
         // データ受信時のイベント処理
-        request.end(
+        request.on(
               'end'
             , () => {
                 data = qs.parse(body);
