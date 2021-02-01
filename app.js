@@ -88,6 +88,19 @@ function setCookie(key, value, response) {
     response.setHeader('Set-Cookie', [`${key}=${cookie}`]);
 }
 
+function getCookie(key, request) {
+    var cookieData = request.headers.cookie != undefined ? request.headers.cookie : '';
+    var data = cookieData.split(';');
+
+    for (var i in data) {
+        if (data[i].trim().startWith(`${key}=`)) {
+            var result = data[i].trim().substring(key.length + 1);
+            return unescape(result);
+        }
+    }
+    return '';
+}
+
 var data2 = {
     'Taro': ['taro@yamada', '09-999-999', 'Tokyo']
   , 'Hanako': ['hanako@flower', '080-888-888', 'Yokohama']
