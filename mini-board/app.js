@@ -65,3 +65,19 @@ function responseIndex(request, response) {
         writeIndex(request, response);
     }
 }
+
+function writeIndex(request, response) {
+    var msg = '※何かメッセージを書いてください。';
+    const content = ejs.render(
+          indexPage
+        , {
+              title: 'Index'
+            , content: msg
+            , data: messageData
+            , fileName: 'data-item'
+        }
+    );
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(content);
+    response.end();
+}
