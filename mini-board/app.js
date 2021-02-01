@@ -74,7 +74,7 @@ function writeIndex(request, response) {
               title: 'Index'
             , content: msg
             , data: messageData
-            , fileName: 'data-item'
+            , filename: 'data-item'
         }
     );
     response.writeHead(200, {'Content-Type': 'text/html'});
@@ -96,6 +96,7 @@ function addToData(id, msg, fname, request) {
     const obj = {'id': id, 'msg': msg};
     const objStr = JSON.stringify(obj);
     console.log(`add data: ${objStr}`);
+    console.log(messageData);
     messageData.unshift(objStr);
     if (messageData.length > maxNum) {
         messageData.pop();
