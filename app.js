@@ -37,27 +37,31 @@ function getFromClient(request, response) {
 }
 
 var data = {
-    'Taro': '09-999-999'
-  , 'Hanako': '080-888-888'
-  , 'Sachiko': '070-777-777'
-  , 'Ichiro': '060-666-666'
+    msg: 'no message...'
 }
 
 function responseIndex(request, response) {
 
-    const msg = 'これは、Indexページです。';
-    const content = ejs.render(
-        indexPage
-      , {
-            title: 'Index'
-          , content: msg
-          , data: data
-          , filename: 'data-item'
-      }
-    );
-    response.writeHead(200, {'Content-Type': 'text/html'});
-    response.write(content);
-    response.end();
+    if (request.method == 'POST') {
+        var body = '';
+
+        // データ受信時のイベント処理
+        request.on(
+              'data'
+            , (data) => {body += data;}
+        );
+
+        // データ受信時のイベント処理
+        request.end(
+              'end'
+            , () => {
+                data = qs.parse(body);
+                writeIndex(request, response);
+            }
+        );
+    } else {
+        writeIndex(request, response);
+    }
 }
 
 var data2 = {
