@@ -40,3 +40,28 @@ function responseLogin(request, response) {
     response.write(content);
     response.end();
 }
+
+function responseIndex(request, response) {
+
+    if (request.method == 'POST') {
+        var body = '';
+
+        // データ受信時のイベント処理
+        request.on(
+              'data'
+            , (data) => {body += data;}
+        );
+
+        // データ受信時のイベント処理
+        request.on(
+              'end'
+            , () => {
+                data = qs.parse(body);
+                addToData(data.id, data.msg, fileName, request);
+                writeIndex(request, response);
+            }
+        );
+    } else {
+        writeIndex(request, response);
+    }
+}
