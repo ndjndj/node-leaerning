@@ -56,6 +56,8 @@ function responseIndex(request, response) {
               'end'
             , () => {
                 data = qs.parse(body);
+                // クッキーの保存
+                setCookie('msg', data.msg, response);
                 writeIndex(request, response);
             }
         );
@@ -66,12 +68,14 @@ function responseIndex(request, response) {
 
 function writeIndex(request, response) {
     var msg = '※伝言を表示します。';
+    var cookieData = getCookie('msg', request);
     var content = ejs.render(
           indexPage
         , {
               title: 'Index'
             , content: msg
             , data: data
+            , cookieData: cookieData
         }
     );
     response.writeHead(200, {'Content-Type': 'text/html'});
