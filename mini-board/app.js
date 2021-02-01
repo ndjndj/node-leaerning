@@ -81,3 +81,14 @@ function writeIndex(request, response) {
     response.write(content);
     response.end();
 }
+
+function addToData(id, msg, fname, request) {
+    const obj = {'id': id, 'msg': msg};
+    const objStr = JSON.stringify(obj);
+    console.log(`add data: ${objStr}`);
+    messageData.unshift(objStr);
+    if (messageData.length > maxNum) {
+        messageData.pop();
+    }
+    saveToFile(fname);
+}
