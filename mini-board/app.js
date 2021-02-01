@@ -82,6 +82,16 @@ function writeIndex(request, response) {
     response.end();
 }
 
+function readFromFile(fname) {
+    fs.readFileSync(
+          fname
+        , 'utf8'
+        , (err, data) => {
+            messageData = data.split('\n');
+        }
+    );
+}
+
 function addToData(id, msg, fname, request) {
     const obj = {'id': id, 'msg': msg};
     const objStr = JSON.stringify(obj);
