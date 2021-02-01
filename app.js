@@ -64,6 +64,21 @@ function responseIndex(request, response) {
     }
 }
 
+function writeIndex(request, response) {
+    var msg = '※伝言を表示します。';
+    var content = ejs.render(
+          indexPage
+        , {
+              title: 'Index'
+            , content: msg
+            , data: data
+        }
+    );
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(content);
+    response.end();
+}
+
 var data2 = {
     'Taro': ['taro@yamada', '09-999-999', 'Tokyo']
   , 'Hanako': ['hanako@flower', '080-888-888', 'Yokohama']
