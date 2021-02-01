@@ -92,3 +92,16 @@ function addToData(id, msg, fname, request) {
     }
     saveToFile(fname);
 }
+
+function saveToFile(fname) {
+    const dataStr = messageData.join('\n');
+    fs.writeFile(
+          fname
+        , dataStr
+        , (err) => {
+            if (err) {
+                throw err;
+            }
+        }
+    );
+}
