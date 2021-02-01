@@ -83,7 +83,7 @@ function writeIndex(request, response) {
 }
 
 function readFromFile(fname) {
-    fs.readFileSync(
+    fs.readFile(
           fname
         , 'utf8'
         , (err, data) => {
