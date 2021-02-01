@@ -56,6 +56,8 @@ function responseIndex(request, response) {
               'end'
             , () => {
                 data = qs.parse(body);
+                // クッキーの保存
+                setCookie('msg', data.msg, response);
                 writeIndex(request, response);
             }
         );
@@ -66,17 +68,37 @@ function responseIndex(request, response) {
 
 function writeIndex(request, response) {
     var msg = '※伝言を表示します。';
+    var cookieData = getCookie('msg', request);
     var content = ejs.render(
           indexPage
         , {
               title: 'Index'
             , content: msg
             , data: data
+            , cookieData: cookieData
         }
     );
     response.writeHead(200, {'Content-Type': 'text/html'});
     response.write(content);
     response.end();
+}
+
+function setCookie(key, value, response) {
+    var cookie = escape(value);
+    response.setHeader('Set-Cookie', [`${key}=${cookie}`]);
+}
+
+function getCookie(key, request) {
+    var cookieData = request.headers.cookie != undefined ? request.headers.cookie : '';
+    var data = cookieData.split(';');
+
+    for (var i in data) {
+        if (data[i].trim().startsWith(`${key}=`)) {
+            var result = data[i].trim().substring(key.length + 1);
+            return unescape(result);
+        }
+    }
+    return '';
 }
 
 var data2 = {
