@@ -16,3 +16,20 @@ const server = http.createServer(getFromClient);
 
 server.listen(3000);
 console.log('Server start');
+
+function getFromClient(request, response) {
+    const urlParts = url.parse(request.url, true);
+
+    switch (urlParts.pathname) {
+        case '/':
+            responseIndex(request, response);
+            break;
+        case '/login':
+            responseLogin(request, response);
+            break;
+        default:
+            response.writeHead(200, {'Content-Type': 'text/plain'});
+            response.end('no page...');
+            break;
+    }
+}
