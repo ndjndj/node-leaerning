@@ -83,6 +83,11 @@ function writeIndex(request, response) {
     response.end();
 }
 
+function setCookie(key, value, response) {
+    var cookie = escape(value);
+    response.setHeader('Set-Cookie', [`${key}=${cookie}`]);
+}
+
 var data2 = {
     'Taro': ['taro@yamada', '09-999-999', 'Tokyo']
   , 'Hanako': ['hanako@flower', '080-888-888', 'Yokohama']
