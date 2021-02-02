@@ -15,6 +15,7 @@ router.get(
 router.post(
       '/post'
     , (req, res, next) => {
+        var msg =  req.body['message'];
         var data = {
               title: 'Hello!'
             , content: `あなたは「${msg}」と送信しました。`
