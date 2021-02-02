@@ -5,8 +5,8 @@ router.get(
       '/'
     , (req, res, next) => {
         var msg = '※何か書いて送信してください';
-        if (req.session.message != undefined) {
-            msg = `Last Message: ${req.session.message}`;
+        if (req.session.message !== undefined) {
+            msg = `Last Message: ${String(req.session.message)}`;
         }
         var data = {
               title: 'Hello!'
@@ -20,10 +20,11 @@ router.post(
       '/post'
     , (req, res, next) => {
         var msg =  req.body['message'];
-        req.session.msg = msg;
+        req.session.message = msg;
+        console.log(req.session.message);
         var data = {
               title: 'Hello!'
-            , content: `Last Message: ${req.session.message}`
+            , content: `Last Message: ${String(req.session.message)}`
         }
         res.render('hello', data);
     }
