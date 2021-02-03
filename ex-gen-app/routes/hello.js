@@ -11,18 +11,24 @@ router.get(
         // データベースのシリアライズ
         db.serialize(
             () => {
-                db.all(
-                      "select * from mydata"
-                    , (err, rows) => {
-                        if (!err) {
+                var rows = '';
+                db.each(
+                      'select * from mydata'
+                    , (err, row) => {
+                        if(!err) {
+                            rows += `<tr><th>${String(row.id)}</th><td>${row.name}</td></tr>`
+                        }
+                    }
+                    , (err, count) => {
+                        if(!err) {
                             var data = {
                                   title: 'Hello!'
                                 , content: rows
-                            }
+                            };
                             res.render('hello', data);
                         }
                     }
-                )
+                );
             }
         )
     }
