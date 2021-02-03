@@ -1,45 +1,67 @@
 const express = require('express');
 const router = express.Router();
-const http = require('https');
-const parseString = require('xml2js').parseString;
+const sqlite3 = require('sqlite3');
+
+// データベースオブジェクトの取得
+const db = new sqlite3.Database('mydb.sqlite3');
 
 router.get(
       '/'
     , (req, res, next) => {
-        const opt = {
-              host: 'news.google.com'
-            , port: 443
-            , path: '/rss?hl=ja&ie=UTF-8&oe=UTF-8&gl=JP&ceid=JP:ja'
-        }
-        http.get(
-              opt
-            , (res2) => {
-                var body = '';
-                res2.on(
-                      'data'
-                    , (data) => {
-                        body += data;
+        // データベースのシリアライズ
+        db.serialize(
+            () => {
+                var rows = '';
+                db.each(
+                      'select * from mydata'
+                    , (err, row) => {
+                        if(!err) {
+                            rows += `<tr><th>${String(row.id)}</th><td>${row.name}</td></tr>`
+                        }
                     }
-                );
-                res2.on(
-                      'end'
-                    , () => {
-                        parseString(
-                              body.trim()
-                            , (err, result) => {
-                                console.log(result);
-                                var data = {
-                                      title: 'Google News'
-                                    , content: result.rss.channel[0].item
-                                };
-                                res.render('hello', data);
-                            }
-                        );
+                    , (err, count) => {
+                        if(!err) {
+                            var data = {
+                                  title: 'Hello!'
+                                , content: rows
+                            };
+                            res.render('hello/index', data);
+                        }
                     }
                 );
             }
-        );
+        )
     }
+);
+
+
+router.get(
+    '/add'
+  , (req, res, next) => {
+      var data = {
+            title: 'Hello/Add'
+          , content: '新しいレコードを入力: '
+      }
+      res.render('hello/add', data);
+  }
+);
+
+router.post(
+    '/add'
+  , (req, res, next) => {
+      const nm = req.body.name;
+      const ml = req.body.mail;
+      const ag = req.body.age;
+      db.serialize(
+          () => {
+              db.run(
+                  'insert into mydata (name, mail, age) values (?, ?, ?)'
+                , nm, ml, ag
+              );
+          }
+      );
+      res.redirect('/hello');
+  }
 );
 
 module.exports = router;
