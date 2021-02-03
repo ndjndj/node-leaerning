@@ -90,7 +90,7 @@ router.get(
 );
 
 router.get(
-    '/show'
+    '/edit'
   , (req, res, next) => {
       const id = req.query.id;
       db.serialize(
@@ -115,6 +115,23 @@ router.get(
   }
 );
 
-
+router.post(
+    '/edit'
+  , (req, res, next) => {
+      const id = req.body.id;
+      const nm = req.body.name;
+      const ml = req.body.mail;
+      const ag = req.body.age;
+      const q = 'update set name = ?, mail = ?, age = ? where id = ? ';
+      db.serialize(
+          () => {
+              db.run(
+                  q, nm, ml, ag, id
+              );
+          }
+      );
+      res.redirect('/hello');
+  }
+);
 
 module.exports = router;
