@@ -122,7 +122,7 @@ router.post(
       const nm = req.body.name;
       const ml = req.body.mail;
       const ag = req.body.age;
-      const q = 'update set name = ?, mail = ?, age = ? where id = ? ';
+      const q = 'update mydata set name = ?, mail = ?, age = ? where id = ? ';
       db.serialize(
           () => {
               db.run(
