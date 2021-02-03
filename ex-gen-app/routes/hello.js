@@ -34,4 +34,18 @@ router.get(
     }
 );
 
+
+router.get(
+    '/add'
+  , (req, res, next) => {
+      var data = {
+            title: 'Hello/Add'
+          , content: '新しいレコードを入力: '
+      }
+      res.render('hello/add', data);
+  }
+);
+
+
+
 module.exports = router;
