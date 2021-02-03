@@ -15,7 +15,11 @@
         <p><%- content %> </p>
         <form method="POST" action="/hello/add">
             <div class="form-group">
-                <label for="mail">NAME</label>
+                <label for="name">NAME</label>
+                <input type="text" name="name" id="name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="mail">MAIL</label>
                 <input type="text" name="mail" id="mail" class="form-control" />
             </div>
             <div class="form-group">

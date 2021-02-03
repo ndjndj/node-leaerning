@@ -55,7 +55,7 @@ router.post(
       db.serialize(
           () => {
               db.run(
-                  'insert into mydata(name, mail, age) values(?, ?, ?)'
+                  'insert into mydata (name, mail, age) values (?, ?, ?)'
                 , nm, ml, ag
               );
           }
