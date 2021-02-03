@@ -46,6 +46,22 @@ router.get(
   }
 );
 
-
+router.post(
+    '/add'
+  , (req, res, next) => {
+      const nm = req.body.name;
+      const ml = req.body.mail;
+      const ag = req.body.age;
+      db.serialize(
+          () => {
+              db.run(
+                  'insert into mydata(name, mail, age) values(?, ?, ?)'
+                , nm, ml, ag
+              );
+          }
+      );
+      res.render('/hello');
+  }
+);
 
 module.exports = router;
