@@ -34,7 +34,6 @@ router.get(
     }
 );
 
-
 router.get(
     '/add'
   , (req, res, next) => {
@@ -89,6 +88,33 @@ router.get(
       );
   }
 );
+
+router.get(
+    '/show'
+  , (req, res, next) => {
+      const id = req.query.id;
+      db.serialize(
+          () => {
+              const q = 'select * from mydata where id = ?';
+              db.get(
+                    q
+                  , [id]
+                  , (err, row) => {
+                      if(!err) {
+                          var data = {
+                                title: 'Hello/edit'
+                              , content: `id = ${id} のレコードを編集`
+                              , mydata: row
+                          }
+                      }
+                      res.render('hello/edit', data);
+                  }
+              );
+          }
+      );
+  }
+);
+
 
 
 module.exports = router;
