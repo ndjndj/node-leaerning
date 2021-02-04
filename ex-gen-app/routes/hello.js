@@ -198,4 +198,31 @@ router.get(
     }
 );
 
+router.post(
+      '/find'
+    , (req, res, next) => {
+        var find = req.body.find;
+        db.serialize(
+            () => {
+                var q = 'select * from mydata where ';
+                db.all(
+                      q + find
+                    , []
+                    , (err, rows) => {
+                        if(!err) {
+                            var data = {
+                                  title: 'Hello/find'
+                                , find: find
+                                , content: `検索条件: ${find}`
+                                , mydata: rows
+                            };
+                            res.render('hello/find', data);
+                        }
+                    }
+                );
+            }
+        );
+    }
+);
+
 module.exports = router;
