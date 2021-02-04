@@ -155,4 +155,18 @@ router.get(
     }
 );
 
+router.post(
+      '/delete'
+    , (req, res, next) => {
+        const id = req.body.id;
+        db.serialize(
+            () => {
+                const q = 'delete from mydata where id = ? ';
+                db.run(q, id);
+            }
+        );
+        res.redirect('/hello');
+    }
+);
+
 module.exports = router;
