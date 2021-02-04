@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const sqlite3 = require('sqlite3');
+const { check, validationResult }  = require('express-validator');
 
 // データベースオブジェクトの取得
 const db = new sqlite3.Database('mydb.sqlite3');
@@ -40,6 +41,7 @@ router.get(
       var data = {
             title: 'Hello/Add'
           , content: '新しいレコードを入力: '
+          , form: {name: '', mail: '', age: ''}
       }
       res.render('hello/add', data);
   }
@@ -47,19 +49,42 @@ router.get(
 
 router.post(
     '/add'
+  , [
+        check('name', 'NAME は必ず入力してください。').notEmpty().escape()
+      , check('mail', 'MAILはメールアドレスを入力してください。').isEmail().escape()
+      , check('age', 'AGEは年齢(整数)を入力してください。').isInt()
+      , check('age', 'AGEは0以上120以下で入力してください。').custom(value => {return value >= 0 & value <= 120;})
+    ]
   , (req, res, next) => {
-      const nm = req.body.name;
-      const ml = req.body.mail;
-      const ag = req.body.age;
-      db.serialize(
-          () => {
-              db.run(
-                  'insert into mydata (name, mail, age) values (?, ?, ?)'
-                , nm, ml, ag
-              );
+      const errors = validationResult(req);
+
+      if(!errors.isEmpty()) {
+          var result = '<ul class="text-danger">';
+          var resultArr = errors.array();
+          for (var n in resultArr) {
+              result += `<li>${resultArr[n].msg}</li>`;
           }
-      );
-      res.redirect('/hello');
+          result += '</ul>';
+          var data = {
+                title: 'Hello/add'
+              , content: result
+              , form: req.body
+          }
+          res.render('hello/add', data);
+      } else {
+          const nm = req.body.name;
+          const ml = req.body.mail;
+          const ag = req.body.age;
+          db.serialize(
+            () => {
+                db.run(
+                      'insert into mydata (name, mail, age) values (?, ?, ?)'
+                    , nm, ml, ag
+                );
+            }
+          );
+          res.redirect('/hello');
+      }
   }
 );
 
