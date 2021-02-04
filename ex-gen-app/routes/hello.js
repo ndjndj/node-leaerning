@@ -134,4 +134,25 @@ router.post(
   }
 );
 
+router.get(
+      '/delete'
+    , (req, res, next) => {
+        const q = 'select * from mydata where id = ? ';
+        db.get(
+              q
+            , [id]
+            , (err, row) => {
+                if(!err) {
+                    var data = {
+                          title: 'Hello/Delete'
+                        , content: `id = ${id} のレコードを削除`
+                        , mydata: row
+                    }
+                    res.render('hello/delete', data);
+                }
+            }
+        );
+    }
+);
+
 module.exports = router;
