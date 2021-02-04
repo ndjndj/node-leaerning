@@ -174,4 +174,28 @@ router.post(
     }
 );
 
+router.get(
+      '/find'
+    , (req, res, next) => {
+        db.serialize(
+            () => {
+                db.all(
+                      'select * from mydata'
+                    , (err, rows) => {
+                        if(!err) {
+                            var data = {
+                                  title: 'Hello/find'
+                                , find: ''
+                                , content: '検索条件を入力してください。'
+                                , mydata: rows
+                            };
+                            res.render('hello/find', data);
+                        }
+                    }
+                );
+            }
+        );
+    }
+);
+
 module.exports = router;
