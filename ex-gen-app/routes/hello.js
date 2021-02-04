@@ -59,7 +59,7 @@ router.post(
 
       if(!errors.isEmpty()) {
           var result = '<ul class="text-danger">';
-          var resultArr = erros.array();
+          var resultArr = errors.array();
           for (var n in resultArr) {
               result += `<li>${resultArr[n].msg}</li>`;
           }
