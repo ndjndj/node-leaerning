@@ -137,7 +137,7 @@ router.post(
 router.get(
       '/delete'
     , (req, res, next) => {
-        const id = req.body.id;
+        const id = req.query.id;
         db.serialize(
             () => {
                 const q = 'select * from mydata where id = ? ';
