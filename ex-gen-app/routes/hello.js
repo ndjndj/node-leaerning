@@ -50,8 +50,8 @@ router.get(
 router.post(
     '/add'
   , [
-        check('name', 'NAME は必ず入力してください。').notEmpty()
-      , check('mail', 'MAILはメールアドレスを入力してください。').isEmail()
+        check('name', 'NAME は必ず入力してください。').notEmpty().escape()
+      , check('mail', 'MAILはメールアドレスを入力してください。').isEmail().escape()
       , check('age', 'AGEは年齢(整数)を入力してください。').isInt()
     ]
   , (req, res, next) => {
