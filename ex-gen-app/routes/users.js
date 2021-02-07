@@ -1,9 +1,20 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const db = require('../models/index');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.get(
+    '/'
+  , (res, req, next) => {
+    db.User.findAll().then(
+      usrs => {
+        var data = {
+            title: 'Users/index'
+          , content: usrs
+        }
+        res.render('users/index', data);
+      }
+    );
+  }
+);
 
 module.exports = router;
