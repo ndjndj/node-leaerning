@@ -5,7 +5,14 @@ const db = require('../models/index');
 router.get(
     '/'
   , (req, res, next) => {
-    db.User.findAll().then(
+    const id = req.query.id;
+    db.User.findAll(
+      {
+        where: {
+          id: id
+        }
+      }
+    ).then(
       usrs => {
         var data = {
             title: 'Users/index'
