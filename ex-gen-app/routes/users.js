@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../models/index');
+const { Op } = require('sequelize');
 
 router.get(
     '/'
@@ -9,7 +10,7 @@ router.get(
     db.User.findAll(
       {
         where: {
-          id: id
+          id: {[Op.lte]: id}
         }
       }
     ).then(
