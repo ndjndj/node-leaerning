@@ -4,7 +4,7 @@ const db = require('../models/index');
 
 router.get(
     '/'
-  , (res, req, next) => {
+  , (req, res, next) => {
     db.User.findAll().then(
       usrs => {
         var data = {
