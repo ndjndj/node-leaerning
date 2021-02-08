@@ -33,7 +33,9 @@ router.get(
     '/add'
   , (req, res, next) => {
     var data = {
-      title: 'Users/Add'
+        title: 'Users/Add'
+      , form: new db.User()
+      , err: null
     }
     res.render('users/add', data);
   }
