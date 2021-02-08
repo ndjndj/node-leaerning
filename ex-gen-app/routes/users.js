@@ -29,4 +29,14 @@ router.get(
   }
 );
 
+router.get(
+    '/add'
+  , (req, res, next) => {
+    var data = {
+      title: 'Users/Add'
+    }
+    res.render('users/add', data);
+  }
+);
+
 module.exports = router;
