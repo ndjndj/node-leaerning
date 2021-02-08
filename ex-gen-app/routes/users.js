@@ -107,5 +107,19 @@ router.get(
   }
 );
 
+router.post(
+    '/delete'
+  , (req, res, next) => {
+    db.sequelize.sync()
+    .then(
+      () => db.User.destroy(
+        {
+          where: {id: req.query.id}
+        }
+      )
+    )
+    .then(usr => {res.redirect('/users')})
+  }
+);
 
 module.exports = router;
