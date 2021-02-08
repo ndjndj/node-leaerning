@@ -110,15 +110,12 @@ router.get(
 router.post(
     '/delete'
   , (req, res, next) => {
-    db.sequelize.sync()
+    db.User.findByPk(req.query.id)
     .then(
-      () => db.User.destroy(
-        {
-          where: {id: req.body.id}
-        }
-      )
+      usr => {
+        usr.destroy().then(() => {res.redirect('/users')})
+      }
     )
-    .then(usr => {res.redirect('/users')})
   }
 );
 
