@@ -14,7 +14,7 @@
     <div role="main">
         <ol class="text-danger">
             <% if (err != null) { for (let i in err.errors) { %>
-                <li><%= i.message %></li>
+                <li><%= err.errors[i].message %></li>
             <% }} %>
         </ol>
         <form method="POST" action="/users/add" >
