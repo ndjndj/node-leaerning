@@ -60,8 +60,8 @@ router.post(
 );
 
 router.get(
-  '/edit'
-, (req, res, next) => {
+    '/edit'
+  , (req, res, next) => {
     db.User.findByPk(req.query.id)
     .then(
         usr => {
@@ -90,5 +90,22 @@ router.post(
     );
   }
 );
+
+router.get(
+    '/delete'
+  , (req, res, next) => {
+    db.User.findByPk(req.query.id)
+    .then(
+        usr => {
+          var data = {
+              title: 'Users/Delete'
+            , form: usr
+          }
+          res.render('users/delete', data);
+        }
+    );
+  }
+);
+
 
 module.exports = router;
