@@ -44,19 +44,28 @@ router.get(
 router.post(
     '/add'
   , (req, res, next) => {
+    const form = {
+        name: req.body.name
+      , pass: req.body.pass
+      , mail: req.body.mail
+      , age: req.body.age
+    };
     db.sequelize.sync()
     .then(
-      () => db.User.create(
-        {
-            name: req.body.name
-          , pass: req.body.pass
-          , mail: req.body.mail
-          , age: req.body.age
-        }
-      )
+      () => db.User.create(form)
     )
     .then(
       usr => {res.redirect('/users');}
+    )
+    .catch(
+      err => {
+        var data = {
+            title: 'Users/Add'
+          , form: form
+          , err: err
+        }
+        res.render('users/add', data)
+      }
     )
   }
 );
