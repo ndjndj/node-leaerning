@@ -53,19 +53,19 @@ router.post(
     db.sequelize.sync()
     .then(
       () => db.User.create(form)
-    )
-    .then(
-      usr => {res.redirect('/users');}
-    )
-    .catch(
-      err => {
-        var data = {
-            title: 'Users/Add'
-          , form: form
-          , err: err
+      .then(
+        usr => {res.redirect('/users');}
+      )
+      .catch(
+        err => {
+          var data = {
+              title: 'Users/Add'
+            , form: form
+            , err: err
+          }
+          res.render('users/add', data)
         }
-        res.render('users/add', data)
-      }
+      )
     )
   }
 );
