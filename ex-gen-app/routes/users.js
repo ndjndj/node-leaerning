@@ -114,7 +114,7 @@ router.post(
     .then(
       () => db.User.destroy(
         {
-          where: {id: req.query.id}
+          where: {id: req.body.id}
         }
       )
     )
