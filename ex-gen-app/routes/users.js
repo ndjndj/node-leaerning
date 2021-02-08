@@ -75,4 +75,27 @@ router.get(
   }
 );
 
+router.post(
+    '/edit'
+  , (req, res, next) => {
+    db.sequelize.sync()
+    .then(
+      () => db.User.update(
+        {
+            name: req.body.name
+          , pass: req.body.pass
+          , mail: req.body.mail
+          , age: req.body.age
+        }
+      , {
+            where: {id: req.body.id}
+        }
+      )
+    )
+    .then(
+      usr => {res.redirect('/users');}
+    )
+  }
+);
+
 module.exports = router;
