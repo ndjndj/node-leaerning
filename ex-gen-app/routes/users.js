@@ -62,17 +62,17 @@ router.post(
 router.get(
   '/edit'
 , (req, res, next) => {
-  db.User.findByPk(req.query.id)
-  .then(
-    usr => {
-      var data = {
-          title: 'Users/Edit'
-        , form: usr
-      }
-      res.render('users/edit', data);
-    }
-  );
-}
+    db.User.findByPk(req.query.id)
+    .then(
+        usr => {
+          var data = {
+              title: 'Users/Edit'
+            , form: usr
+          }
+          res.render('users/edit', data);
+        }
+    );
+  }
 );
 
 module.exports = router;
