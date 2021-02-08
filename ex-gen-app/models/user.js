@@ -6,26 +6,35 @@ module.exports = (sequelize, DataTypes) => {
         name: {
             type: DataTypes.STRING
           , validate: {
-            notEmpty: true
+            notEmpty: {
+              msg: '名前は必ず入力してください。'
+            }
           }
         }
       , pass: {
             type: DataTypes.STRING
           , validate: {
-            notEmpty: true
+            notEmpty: {
+              msg: 'パスワードは必ず入力してください。'
+            }
           }
         }
       , mail: {
             type: DataTypes.STRING
           , validate: {
-            notEmpty: true
+            notEmpty: {
+              msg: 'メールアドレスを入力してください。'
+            }
           }
         }
       , age: {
           type: DataTypes.INTEGER
         , validate: {
-            isInt: true
-          , min: 0
+            isInt: {msg: '整数を入力してください。'}
+          , min: {
+              args: [0]
+            , msg: 'ゼロ以上の値が必要です。'
+          }
         }
       }
     }
