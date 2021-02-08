@@ -53,9 +53,7 @@ router.post(
     db.sequelize.sync()
     .then(
       () => db.User.create(form)
-      .then(
-        usr => {res.redirect('/users');}
-      )
+      .then( usr => {res.redirect('/users');} )
       .catch(
         err => {
           var data = {
