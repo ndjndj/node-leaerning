@@ -82,34 +82,39 @@ router.post(
     }
 );
 
-router.post(
-    '/login'
-  , (req, res, next) => {
-    db.User.findOne({
-      where: {
-          name: req.body.name
-        , pass: req.body.pass
-      }
-    })
-    .then(
-      usr => {
-        if (usr != null) {
-          req.session.login = usr;
-          let back = req.session.back;
-          if (back == null) {
-            back = '/';
-          }
-          res.redirect(back);
-        } else {
-          var data  = {
-              title: 'Users/Login'
-            , content: '名前かパスワードに問題があります。再度入力してください'
-          }
-          res.render('users/login', data);
-        }
-      }
-    )
-  }
+// user home
+router.get(
+      '/home/:user/:id/:page'
+    , (req, res, next) => {
+        if (check(req, res)) {return;}
+        const id = req.params.id * 1;
+        const pg = req.params.page * 1;
+        db.Board.findAll({
+              where: {userId: id}
+            , offset: pg * pnum
+            , limit: pnum
+            , order: [
+                ['createdAt', 'DESC']
+              ]
+            , include: [{
+                  model: db.User
+                , required: true
+            }]
+        })
+        .then(
+            brds => {
+                var data = {
+                      title: 'Boards'
+                    , login: req.session.login
+                    , userId: id
+                    , userName: req.params.user
+                    , content: brds
+                    , page: pg
+                }
+                res.render('boards/home', data)
+            }
+        )
+    }
 );
 
 module.exports = router;
