@@ -1,5 +1,5 @@
 var express = require('express');
-const db = require('../../ex-gen-app/models');
+const db = require('../models/index');
 var router = express.Router();
 
 /* GET users listing. */
