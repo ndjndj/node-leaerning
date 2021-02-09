@@ -55,7 +55,32 @@ router.get(
   }
 );
 
-
+// message form
+router.post(
+      '/add'
+    , (req, res, next) => {
+        if (check(req, res)) {return;};
+        db.sequelize.sync()
+        .then(
+            () => {
+                bd.Board.create({
+                      userId: req.session.login.id
+                    , message: req.body.msg
+                })
+            }
+        )
+        .then(
+            brd => {
+                res.redirect('/boards');
+            }
+        )
+        .catch(
+            (err) => {
+                res.redirect('/boards');
+            }
+        )
+    }
+);
 
 router.post(
     '/login'
