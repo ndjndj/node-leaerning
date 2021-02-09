@@ -63,7 +63,7 @@ router.post(
         db.sequelize.sync()
         .then(
             () => {
-                bd.Board.create({
+                db.Board.create({
                       userId: req.session.login.id
                     , message: req.body.msg
                 })
