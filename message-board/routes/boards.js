@@ -15,5 +15,13 @@ function check(req, res) {
     }
 }
 
+/* top page */
+router.get(
+      '/'
+    , function(req, res, next) {
+        res.redirect('/boards/0');
+  }
+);
+
 
 module.exports = router;
