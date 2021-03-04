@@ -13,7 +13,23 @@
         <h1 class="display-4"><%= title %></h1>
     </header>
     <div role="main">
-        
+        <p class="h4"><%= userName %>'s message.</p>
+        <table class="table mt-5">
+            <% for(let i in content) { %>
+                <%- include('data-item', {val: content[i]}) %>
+            <% } %>
+        </table>
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a href="/boards/home/<%= userName %>/<%= userId %>/<%= page-1 %>">&lt;&lt; prev</a>
+            </li>
+            <li class="page-item">
+                <a href="/boards/home/<%= userName %>/<%= userId %>/<%= page+1 %>">next &gt;&gt;</a>
+            </li>
+        </ul>
+    </div>
+    <div class="text-left">
+        <a href="/boards">&lt;&lt; Top.</a>
     </div>
 </body>
 
