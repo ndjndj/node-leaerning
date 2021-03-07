@@ -7,7 +7,7 @@ const pnum = 10;
 
 function check(req, res) {
     if (req.session.login == null) {
-        req.session.back = '/back';
+        req.session.back = '/boards';
         res.redirect('/users/login');
         return true;
     } else {
