@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     , {}
   );
   Board.associate = function(models) {
-    Board.belongTo(models.User);
+    Board.belongsTo(models.User);
   };
   return Board;
 };
