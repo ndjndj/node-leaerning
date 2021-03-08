@@ -1,5 +1,6 @@
 var express = require('express');
 const db = require('../models/index');
+const { Op } = require('sequelize');
 var router = express.Router();
 
 router.get(
