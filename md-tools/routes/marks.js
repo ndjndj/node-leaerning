@@ -135,18 +135,6 @@ router.get(
     )
 });
 
-router.post(
-  '/delete'
-, (req, res, next) => {
-  db.User.findByPk(req.query.id)
-  .then(
-    usr => {
-      usr.destroy().then(() => {res.redirect('/users')})
-    }
-  )
-}
-);
-
 // make show mark page
 function makepage(req, res, model, flg) {
     var footer;
