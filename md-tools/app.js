@@ -1,8 +1,8 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -16,8 +16,16 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
+
+var sessionOpt = {
+  secret: 'keyboard cat'
+, resave: false
+, saveUninitialized: false
+, cookie: {maxAge: 60 * 60 * 1000}
+};
+app.use(session(sessionOpt));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
