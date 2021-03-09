@@ -17,6 +17,7 @@
     "knex": "^0.95.1",
     "markdown-it": "^12.0.4",
     "morgan": "~1.9.1",
+    "sequelize": "^6.5.0",
     "sqlite3": "^5.0.2"
   }
 }
