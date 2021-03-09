@@ -101,24 +101,25 @@ router.get(
   , (req, res, next) => {
       res.redirect('/md');
       return;
-  });
+ });
 
-
-router.post(
-  '/edit'
-, (req, res, next) => {
-  db.User.findByPk(req.query.id)
-  .then(
-      usr => {
-        usr.name = req.body.name;
-        usr.pass = req.body.pass;
-        usr.mail = req.body.mail;
-        usr.age = req.body.age;
-        usr.save().then(() => {res.redirect('/users')});
-      }
-  );
-}
-);
+//show markdata oriented id
+router.get(
+    '/mark/:id'
+  , (req, res, next) => {
+    if (check(req, res)) {return;};
+    db.Markdata.findOne({
+        where: {
+              id: req.params.id
+            , userId: req.session.login.id
+        },
+    })
+    .then(
+        (model) => {
+            makepage(req, res, model, true);
+        }
+    );
+ });
 
 router.get(
   '/delete'
