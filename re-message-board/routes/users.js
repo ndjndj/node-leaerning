@@ -152,7 +152,10 @@ router.post(
     .then(
       usr => {
         if (usr != null) {
+          console.log(req.session.login);
+          console.log(usr);
           req.session.login = usr;
+
           let back = req.session.back;
           if (back == null) {
             back = '/';
