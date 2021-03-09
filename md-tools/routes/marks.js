@@ -95,21 +95,14 @@ router.post(
     );
 });
 
+//redirect with access to /mark
 router.get(
-  '/edit'
-, (req, res, next) => {
-  db.User.findByPk(req.query.id)
-  .then(
-      usr => {
-        var data = {
-            title: 'Users/Edit'
-          , form: usr
-        }
-        res.render('users/edit', data);
-      }
-  );
-}
-);
+    '/mark'
+  , (req, res, next) => {
+      res.redirect('/md');
+      return;
+  });
+
 
 router.post(
   '/edit'
