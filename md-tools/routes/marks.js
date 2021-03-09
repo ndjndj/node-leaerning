@@ -89,6 +89,7 @@ router.post(
         })
         .then(
             model => {
+
                 res.redirect('/md')
             }
         )
@@ -148,7 +149,7 @@ function makepage(req, res, model, flg) {
         footer = `Updating date and time infomation...`;
     }
     var data = {
-          titile: 'Markdown'
+          title: 'Markdown'
         , id: req.params.id
         , head: model.title
         , footer: footer
