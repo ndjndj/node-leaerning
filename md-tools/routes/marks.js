@@ -70,14 +70,9 @@ router.post(
 router.get(
   '/add'
 , (req, res, next) => {
-  var data = {
-      title: 'Users/Add'
-    , form: new db.User()
-    , err: null
-  }
-  res.render('users/add', data);
-}
-);
+    if (check(req, res)) {return;};
+    res.render('md/add', {title: 'Markdown/Add'});
+});
 
 
 
