@@ -67,6 +67,7 @@ router.post(
     )
 });
 
+//add
 router.get(
   '/add'
 , (req, res, next) => {
@@ -74,7 +75,25 @@ router.get(
     res.render('md/add', {title: 'Markdown/Add'});
 });
 
-
+//add post
+router.post(
+    '/add'
+  , (req, res, next) => {
+    if (check(req, res)) {return;};
+    db.sequelize.sync()
+    .then(
+        () => db.Markdata.create({
+              userId: req.session.login.id
+            , title: req.body.title
+            , content: req.body.content
+        })
+        .then(
+            model => {
+                res.redirect('/md')
+            }
+        )
+    );
+});
 
 router.get(
   '/edit'
