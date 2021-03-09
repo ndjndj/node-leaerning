@@ -41,6 +41,32 @@ router.get(
     )
 });
 
+//search form
+router.post(
+    '/'
+  , (req, res, next) => {
+    if (check(req, res)) {return;};
+    db.Markdata.findAll({
+        where: {
+              userId: req.session.login.id
+            , content: {[Op.like]: `%${req.body.find}%`}
+        }
+      , limit: pnum
+      , order: [['createdAt', 'DESC']]
+    }).then(
+      mds => {
+          var data = {
+                title: 'Markdown Search'
+              , login: req.session.login
+              , message: `※"${req.body.find}"で検索された最近の投稿データ`
+              , form: req.body
+              , content: mds
+          };
+          res.render('md/index', data);
+      }
+    )
+});
+
 router.get(
   '/add'
 , (req, res, next) => {
@@ -53,32 +79,7 @@ router.get(
 }
 );
 
-router.post(
-  '/add'
-, (req, res, next) => {
-  const form = {
-      name: req.body.name
-    , pass: req.body.pass
-    , mail: req.body.mail
-    , age: req.body.age
-  };
-  db.sequelize.sync()
-  .then(
-    () => db.User.create(form)
-    .then( usr => {res.redirect('/users');} )
-    .catch(
-      err => {
-        var data = {
-            title: 'Users/Add'
-          , form: form
-          , err: err
-        }
-        res.render('users/add', data)
-      }
-    )
-  )
-}
-);
+
 
 router.get(
   '/edit'
