@@ -147,49 +147,27 @@ router.post(
 }
 );
 
-
-router.get(
-    '/login'
-  , (req, res, next) => {
-    var data = {
-        title: 'Users/Login'
-      , content: '名前とパスワードを入力してください'
+// make show mark page
+function makepage(req, res, model, flg) {
+    var footer;
+    if (flg) {
+        var dcreday = new Date(model.createdAt);
+        var creday = `${dcreday.getFuillYear()}-${dcreday.getMonth() + 1}-${dcreday.getDate()}`;
+        var dupday = new Date(model.updatedAt);
+        var upday = `${dupday.getFuillYear()}-${dupday.getMonth() + 1}-${dupday.getDate()}`;
+        footer = `(created: ${creday}, updated: ${upday})`;
+    } else {
+        footer = `Updating date and time infomation...`;
     }
-    res.render('users/login', data);
-  }
-);
-
-router.post(
-    '/login'
-  , (req, res, next) => {
-    db.User.findOne({
-      where: {
-          name: req.body.name
-        , pass: req.body.pass
-      }
-    })
-    .then(
-      usr => {
-        if (usr != null) {
-          console.log(req.session.login);
-          console.log(usr);
-          req.session.login = usr;
-
-          let back = req.session.back;
-          if (back == null) {
-            back = '/';
-          }
-          res.redirect(back);
-        } else {
-          var data  = {
-              title: 'Users/Login'
-            , content: '名前かパスワードに問題があります。再度入力してください'
-          }
-          res.render('users/login', data);
-        }
-      }
-    )
-  }
-);
+    var data = {
+          titile: 'Markdown'
+        , id: req.params.id
+        , head: model.title
+        , footer: footer
+        , content: markdown.render(model.content)
+        , source: model.content
+    };
+    res.render('md/mark', data);
+}
 
 module.exports = router;
