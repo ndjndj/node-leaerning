@@ -121,21 +121,19 @@ router.get(
     );
  });
 
-router.get(
-  '/delete'
-, (req, res, next) => {
-  db.User.findByPk(req.query.id)
-  .then(
-      usr => {
-        var data = {
-            title: 'Users/Delete'
-          , form: usr
+ // update with markdata
+ router.post(
+    '/mark/:id'
+  , (req, res, next) => {
+    if (check(req, res)) {return;};
+    db.Markdata.findByPk(req.params.id)
+    .then(
+        md => {
+            md.content = req.body.source;
+            md.save().then((model) => {makepage(req, res, model, false)});
         }
-        res.render('users/delete', data);
-      }
-  );
-}
-);
+    )
+});
 
 router.post(
   '/delete'
