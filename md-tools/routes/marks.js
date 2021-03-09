@@ -140,9 +140,9 @@ function makepage(req, res, model, flg) {
     var footer;
     if (flg) {
         var dcreday = new Date(model.createdAt);
-        var creday = `${dcreday.getFullYear()}-${dcreday.getMonth() + 1}-${dcreday.getDate()}`;
+        var creday = `${String(dcreday.getFullYear())}-${String(dcreday.getMonth() + 1)}-${String(dcreday.getDate())}`;
         var dupday = new Date(model.updatedAt);
-        var upday = `${dupday.getFullYear()}-${dupday.getMonth() + 1}-${dupday.getDate()}`;
+        var upday = `${String(dupday.getFullYear())}-${String(dupday.getMonth() + 1)}-${String(dupday.getDate())}`;
         footer = `(created: ${creday}, updated: ${upday})`;
     } else {
         footer = `Updating date and time infomation...`;
