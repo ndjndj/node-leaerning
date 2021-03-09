@@ -18,31 +18,28 @@ function check(req, res) {
     }
 }
 
+//access top page
 router.get(
   '/'
 , (req, res, next) => {
-  const nm = req.query.name;
-  const ml = req.query.mail;
-  db.User.findAll(
-    {
-      where: {
-        [Op.or]: [
-            {name: {[Op.like]: `%${nm}%`}}
-          , {mail: {[Op.like]: `%${ml}%`}}
-        ]
-      }
-    }
-  ).then(
-    usrs => {
-      var data = {
-          title: 'Users/index'
-        , content: usrs
-      }
-      res.render('users/index', data);
-    }
-  );
-}
-);
+    if (check(req, res)) {return;};
+    db.Markdata.findAll({
+          where: {userId: req.session.login.id}
+        , limit: pnum
+        , order: [['createdAt', 'DESC']]
+    }).then(
+        mds => {
+            var data = {
+                  title: 'Markdown Search'
+                , login: req.session.login
+                , message: '※最近の投稿データ'
+                , form: {find: ''}
+                , content: mds
+            };
+            res.render('md/index', data);
+        }
+    )
+});
 
 router.get(
   '/add'
